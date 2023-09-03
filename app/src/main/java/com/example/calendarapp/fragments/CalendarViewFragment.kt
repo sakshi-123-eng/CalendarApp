@@ -110,16 +110,14 @@ class CalendarViewFragment : Fragment() {
 
                 val daysBinding =
                     (DayItemLayoutBinding.inflate(
-                        LayoutInflater.from(daysView.context),
-                        daysView,
-                        false
+                        LayoutInflater.from(daysView.context)
                     ))
 
                 daysBinding.apply {
                     dayName.text = item
 
                     val layoutParams = GridLayout.LayoutParams()
-                    layoutParams.setMargins(8, 8, 8, 8)
+                    layoutParams.setMargins(16, 16, 16, 16)
 
                     root.layoutParams = layoutParams
                     root.isClickable = false
@@ -132,16 +130,17 @@ class CalendarViewFragment : Fragment() {
             for (day in 0 until firstDayOfWeek) {
                 val daysBinding =
                     (DayItemLayoutBinding.inflate(
-                        LayoutInflater.from(daysView.context),
-                        daysView,
-                        false
+                        LayoutInflater.from(daysView.context)
                     ))
 
                 daysBinding.apply {
-                    root.visibility = View.INVISIBLE
+                    root.visibility = View.GONE
 
                     val layoutParams = GridLayout.LayoutParams()
-                    layoutParams.setMargins(16, 16, 16, 16)
+
+                    layoutParams.columnSpec =
+                        GridLayout.spec(GridLayout.UNDEFINED, 1f)
+
 
                     root.layoutParams = layoutParams
                     root.isClickable = false
@@ -153,9 +152,7 @@ class CalendarViewFragment : Fragment() {
             for (day in firstDayOfWeek until (totalDaysInMonth + firstDayOfWeek)) {
                 val daysBinding =
                     (DayItemLayoutBinding.inflate(
-                        LayoutInflater.from(daysView.context),
-                        daysView,
-                        false
+                        LayoutInflater.from(daysView.context)
                     ))
 
                 daysBinding.apply {
@@ -167,54 +164,43 @@ class CalendarViewFragment : Fragment() {
                     root.layoutParams = layoutParams
 
 
-                    daysCardView.setOnClickListener {
+                    root.apply {
+                        setOnClickListener {
 
-                        if (previousSelectedItem != null && previousSelectedItem != daysBinding) {
-                            previousSelectedItem?.apply {
-                                daysCardView.apply {
-                                    context?.let {
-                                        setBackgroundColor(
-                                            ContextCompat.getColor(
-                                                it,
-                                                R.color.white
-                                            )
-                                        )
+                            if (previousSelectedItem != null && previousSelectedItem != daysBinding) {
+                                previousSelectedItem?.apply {
+                                    root.apply {
+                                        context?.let {
+                                            setBackgroundResource(R.drawable.day_background_unselected)
+                                        }
                                     }
-                                }
 
-                                dayName.setTextColor(
-                                    ContextCompat.getColor(
-                                        dayName.context,
-                                        R.color.primary_green
+                                    dayName.setTextColor(
+                                        ContextCompat.getColor(
+                                            dayName.context,
+                                            R.color.primary_green
+                                        )
                                     )
-                                )
+                                }
                             }
-                        }
 
-                        daysCardView.apply {
-                            setCardBackgroundColor(
+                            setBackgroundResource(R.drawable.day_background_selected)
+
+                            dayName.setTextColor(
                                 ContextCompat.getColor(
-                                    this.context,
-                                    R.color.primary_green
+                                    dayName.context,
+                                    R.color.white
                                 )
                             )
+
+                            previousSelectedItem = daysBinding
                         }
-
-                        val gjcvhk = (previousSelectedItem == daysBinding)
-                        dayName.setTextColor(ContextCompat.getColor(dayName.context, R.color.white))
-
-                        previousSelectedItem = daysBinding
                     }
 
 
                     selectedDay?.let {
                         if (it == ((day - firstDayOfWeek) + 1)) {
-                            daysCardView.setCardBackgroundColor(
-                                ContextCompat.getColor(
-                                    daysCardView.context,
-                                    R.color.primary_green
-                                )
-                            )
+                            root.setBackgroundResource(R.drawable.day_background_selected)
 
 
                             dayName.setTextColor(

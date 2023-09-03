@@ -54,6 +54,13 @@ class CalendarViewModel @Inject constructor(private val repository: CalendarRepo
         MonthsDataModelClass(monthName = "Dec", monthId = 12)
     )
 
+    init {
+        getCalendarTasksList(UserId(USER_ID))
+        tasksListLiveData = repository.tasksListLiveData
+        errorLiveData = repository.errorLiveData
+    }
+
+
     fun getMonthsList(): List<MonthsDataModelClass> {
         return monthsList.mapIndexed { index, it ->
             if (it.monthId == selectedMonthId) previousSelectedPosition = index
@@ -65,12 +72,6 @@ class CalendarViewModel @Inject constructor(private val repository: CalendarRepo
         }
     }
 
-
-    init {
-        getCalendarTasksList(UserId(USER_ID))
-        tasksListLiveData = repository.tasksListLiveData
-        errorLiveData = repository.errorLiveData
-    }
 
     fun addNewCalendarTask(userTaskModel: UserTaskModel) {
         viewModelScope.launch(Dispatchers.IO) {

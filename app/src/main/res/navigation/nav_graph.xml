@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/calendarFragment">
+
+
+    <fragment
+        android:id="@+id/calendarFragment"
+        android:name="com.example.calendarapp.fragments.CalendarViewFragment"
+        android:label="calendarFragment"
+        tools:layout="@layout/fragment_calendar_view" />
+
+    <dialog
+        android:id="@+id/monthsPickerDialog"
+        android:name="com.example.calendarapp.fragments.MonthsPickerDialogFragment"
+        android:label="Months_Dialog_picker"
+        tools:layout="@layout/fragment_months_picker_dialog" />
+
+    <dialog
+        android:id="@+id/createNewTaskFragment"
+        android:name="com.example.calendarapp.fragments.CreateTaskBottomSheetDialogFragmentFragment"
+        android:label="createTaskFragment"
+        tools:layout="@layout/fragment_create_task_bottom_sheet_dialog_fragment" />
+</navigation>
